@@ -20,6 +20,7 @@ Redis (Remote Dictionary Server) is an open-source, in-memory data structure sto
 - [Performance Tips](#performance-tips)
 - [Redis CLI Commands](#redis-cli-commands)
 - [Persistence Options](#persistence-options)
+- [Security Features](#security-features)
 - [Resources](#resources)
 
 ---
@@ -597,6 +598,28 @@ appendfsync everysec  # Sync every second (good balance)
 ### Hybrid Mode
 
 Use both RDB and AOF for the best of both worlds - fast backups with good durability.
+
+---
+
+## Security Features
+
+Redis provides several security features to protect your data:
+
+### Core Redis Security Features
+
+- **Access Control Lists (ACLs)**: Introduced in Redis 6, ACLs let you create multiple users with individual passwords and restrict which commands or specific key patterns (e.g., `app1:*`) each user can run or access.
+
+- **Authentication (`AUTH`)**: Requires clients to provide a valid username and password before executing any commands.
+
+- **TLS / SSL Encryption**: Encrypts data in transit between your application and the Redis server so passwords and sensitive cached data cannot be intercepted over the network.
+
+- **Network Isolation (`bind` & Protected Mode)**: By default, Redis binds only to `localhost` (`127.0.0.1`) and enables Protected Mode, automatically rejecting external connections unless authentication and network bindings are explicitly configured.
+
+- **Command Renaming / Disabling**: Dangerous administrative commands (like `FLUSHALL`, `CONFIG`, or `SHUTDOWN`) can be disabled or restricted via ACLs so a compromised app cannot wipe the entire database.
+
+### Important Caveat: Encryption at Rest
+
+Redis does not natively encrypt data stored in RAM (and standard open-source disk snapshots like RDB/AOF are unencrypted). To protect data at rest, teams rely on OS-level disk encryption (like LUKS or BitLocker) or managed cloud services (such as AWS ElastiCache or Redis Cloud).
 
 ---
 
