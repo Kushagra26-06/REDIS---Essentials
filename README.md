@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://redis.io/images/redis-white.png" alt="Redis Logo" width="200"/>
+  <img src="https://raw.githubusercontent.com/docker-library/docs/0e42ee108b46e1ba6333e9eb44201b8f26c4032d/redis/logo.png" alt="Redis Logo" width="200"/>
 </div>
 
 # Redis - The Open Source, In-Memory Data Structure Store
