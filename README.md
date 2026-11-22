@@ -28,10 +28,6 @@ Redis (Remote Dictionary Server) is an open-source, in-memory data structure sto
 
 Redis is a key-value store that supports various data structures including strings, hashes, lists, sets, sorted sets, bitmaps, hyperloglogs, and streams. Unlike traditional databases that store data on disk (such as MySQL, PostgreSQL, Oracle, MongoDB, Cassandra, and Microsoft SQL Server), Redis keeps data in memory, making it extremely fast.
 
-<div align="center">
-  <img src="redis-vs-traditional-db.png" alt="Redis vs Traditional Databases" width="600"/>
-</div>
-
 ### Why Redis?
 
 - **Speed**: Sub-millisecond latency, handles millions of operations per second
