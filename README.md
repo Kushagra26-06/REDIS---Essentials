@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="https://redis.io/images/redis-white.png" alt="Redis Logo" width="200"/>
+</div>
+
 # Redis - The Open Source, In-Memory Data Structure Store
 
 Redis (Remote Dictionary Server) is an open-source, in-memory data structure store used as a database, cache, message broker, and streaming engine. It provides sub-millisecond response times, enabling millions of requests per second for real-time applications.
@@ -268,7 +272,7 @@ Redis is commonly used as a cache to reduce database load. The typical pattern i
 2. If yes, return cached data (cache hit)
 3. If no, fetch from database and store in Redis with expiration (cache miss)
 
-### Caching Architecture
+#### Caching Architecture
 
 ```mermaid
 graph LR
@@ -281,31 +285,6 @@ graph LR
     style A fill:#3b82f6,color:#fff
     style B fill:#ef4444,color:#fff
     style C fill:#10b981,color:#fff
-```
-
-### Caching Flowchart
-
-```mermaid
-flowchart TD
-    Start([Application Request]) --> Check{Data in Redis?}
-    Check -->|Yes| Hit[Cache Hit]
-    Check -->|No| Miss[Cache Miss]
-    Hit --> Return1[Return Data from Redis]
-    Miss --> Query[Query Database]
-    Query --> Store[Store in Redis with TTL]
-    Store --> Return2[Return Data]
-    Return1 --> End([End])
-    Return2 --> End
-
-    style Start fill:#3b82f6,color:#fff
-    style Check fill:#f59e0b,color:#fff
-    style Hit fill:#10b981,color:#fff
-    style Miss fill:#ef4444,color:#fff
-    style Query fill:#8b5cf6,color:#fff
-    style Store fill:#06b6d4,color:#fff
-    style Return1 fill:#10b981,color:#fff
-    style Return2 fill:#10b981,color:#fff
-    style End fill:#3b82f6,color:#fff
 ```
 
 ### 2. Session Storage
@@ -353,6 +332,33 @@ See `03_use_cases.py` for implementation examples of these use cases.
 ---
 
 ## Best Practices
+
+### Cache Implementation Pattern
+
+When implementing caching with Redis, follow this decision flow:
+
+```mermaid
+flowchart TD
+    Start([Application Request]) --> Check{Data in Redis?}
+    Check -->|Yes| Hit[Cache Hit]
+    Check -->|No| Miss[Cache Miss]
+    Hit --> Return1[Return Data from Redis]
+    Miss --> Query[Query Database]
+    Query --> Store[Store in Redis with TTL]
+    Store --> Return2[Return Data]
+    Return1 --> End([End])
+    Return2 --> End
+
+    style Start fill:#3b82f6,color:#fff
+    style Check fill:#f59e0b,color:#fff
+    style Hit fill:#10b981,color:#fff
+    style Miss fill:#ef4444,color:#fff
+    style Query fill:#8b5cf6,color:#fff
+    style Store fill:#06b6d4,color:#fff
+    style Return1 fill:#10b981,color:#fff
+    style Return2 fill:#10b981,color:#fff
+    style End fill:#3b82f6,color:#fff
+```
 
 ### 1. Use Connection Pooling
 
