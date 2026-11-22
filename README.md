@@ -63,34 +63,6 @@ Generally speaking, the technical information about Redis on this page is equall
 - API and client libraries
 - Operational patterns
 
-### Redis Architecture
-
-```mermaid
-graph LR
-    A[Client Application] -->|1. Send Command| B[Redis Server]
-    B -->|2. Process Command| C[In-Memory Data Store]
-    C -->|3. Return Result| B
-    B -->|4. Send Response| A
-
-    D[Optional Persistence] -->|Save| E[(Disk Storage)]
-    C -->|Snapshot| E
-
-    style A fill:#3b82f6,color:#fff
-    style B fill:#ef4444,color:#fff
-    style C fill:#10b981,color:#fff
-    style D fill:#f59e0b,color:#fff
-    style E fill:#8b5cf6,color:#fff
-```
-
-**Explanation:**
-- **Client Application**: Your application sends commands to Redis
-- **Redis Server**: Processes commands and manages data
-- **In-Memory Data Store**: Data is stored in RAM for ultra-fast access
-- **Optional Persistence**: Redis can optionally save data to disk (RDB snapshots or AOF logs) for durability
-- **Disk Storage**: Persistent storage for backup and recovery
-
-This architecture enables Redis to provide microsecond-level response times while still offering durability through optional persistence mechanisms.
-
 ---
 
 ## Key Features
@@ -105,6 +77,21 @@ This architecture enables Redis to provide microsecond-level response times whil
 - Lua scripting support
 - Geospatial indexing
 - Stream processing
+
+### Redis Architecture Overview
+
+<div align="center">
+  <img src="redis-architecture.jpg" alt="Redis Architecture" width="700"/>
+</div>
+
+This diagram illustrates the complete Redis architecture including:
+- **Client Access**: Multiple programming language support (C#, Go, Java, Python, Node.js)
+- **Operations**: Commands for different data types (Strings, Lists, Sets)
+- **In-Memory Data**: Fast data storage in RAM
+- **Storage**: Persistence mechanisms (AOF for operation logging, RDB for snapshots)
+- **High Availability**: Replication and Sentinel for failover
+- **Security**: Access control and data encryption
+- **Admin**: Configuration and monitoring tools
 
 ## Redis Advantages
 
