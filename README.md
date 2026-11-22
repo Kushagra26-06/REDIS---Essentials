@@ -317,6 +317,50 @@ graph LR
 
 This pattern significantly reduces database load and improves response times for frequently accessed data.
 
+### Caching Strategies
+
+There are several caching strategies for managing data between your application, cache, and database:
+
+<div align="center">
+  <img src="caching-strategies.jpg" alt="Caching Strategies" width="700"/>
+</div>
+
+**1. Write-through**
+- Data is written and updated simultaneously in both the cache and the database
+- Ensures cache and database are always consistent
+- Write latency is higher due to dual writes
+- Best for: Read-heavy workloads where data consistency is critical
+
+**2. Read-through**
+- Cache sits between application and database
+- Application reads from cache; if data is missing, cache fetches from database
+- Application doesn't need to handle cache misses
+- Best for: Simple applications where you want the cache to manage data loading
+
+**3. Write-behind (Write-back)**
+- Data is written to cache first, then asynchronously to database
+- Very fast write performance
+- Risk of data loss if cache fails before sync
+- Best for: Write-heavy workloads where some data loss is acceptable
+
+**4. Write-around**
+- Data is written directly to database, bypassing cache
+- Cache is populated only on read requests
+- Prevents flooding cache with data that won't be read
+- Best for: Data written once but rarely read
+
+**5. Cache-aside (Lazy loading)**
+- Application manages cache explicitly
+- Check cache first; if miss, fetch from database and populate cache
+- Most common caching pattern
+- Best for: General-purpose caching where you need full control
+
+**6. Pre-fetch**
+- Data is pre-loaded into cache before it's needed
+- Database pushes updates to cache when data changes
+- Reduces cache misses for predictable access patterns
+- Best for: Data with predictable access patterns or scheduled updates
+
 ### 2. Session Storage
 
 Store user session data in Redis for fast access and automatic expiration. Sessions can be stored with a TTL to automatically expire after inactivity.
