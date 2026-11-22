@@ -26,7 +26,7 @@ Redis (Remote Dictionary Server) is an open-source, in-memory data structure sto
 
 ## What is Redis?
 
-Redis is a key-value store that supports various data structures including strings, hashes, lists, sets, sorted sets, bitmaps, hyperloglogs, and streams. Unlike traditional databases that store data on disk, Redis keeps data in memory, making it extremely fast.
+Redis is a key-value store that supports various data structures including strings, hashes, lists, sets, sorted sets, bitmaps, hyperloglogs, and streams. Unlike traditional databases that store data on disk (such as MySQL, PostgreSQL, Oracle, MongoDB, Cassandra, and Microsoft SQL Server), Redis keeps data in memory, making it extremely fast.
 
 ### Why Redis?
 
@@ -58,6 +58,34 @@ Generally speaking, the technical information about Redis on this page is equall
 - Performance characteristics
 - API and client libraries
 - Operational patterns
+
+### Redis Architecture
+
+```mermaid
+graph LR
+    A[Client Application] -->|1. Send Command| B[Redis Server]
+    B -->|2. Process Command| C[In-Memory Data Store]
+    C -->|3. Return Result| B
+    B -->|4. Send Response| A
+
+    D[Optional Persistence] -->|Save| E[(Disk Storage)]
+    C -->|Snapshot| E
+
+    style A fill:#3b82f6,color:#fff
+    style B fill:#ef4444,color:#fff
+    style C fill:#10b981,color:#fff
+    style D fill:#f59e0b,color:#fff
+    style E fill:#8b5cf6,color:#fff
+```
+
+**Explanation:**
+- **Client Application**: Your application sends commands to Redis
+- **Redis Server**: Processes commands and manages data
+- **In-Memory Data Store**: Data is stored in RAM for ultra-fast access
+- **Optional Persistence**: Redis can optionally save data to disk (RDB snapshots or AOF logs) for durability
+- **Disk Storage**: Persistent storage for backup and recovery
+
+This architecture enables Redis to provide microsecond-level response times while still offering durability through optional persistence mechanisms.
 
 ---
 
@@ -287,6 +315,20 @@ graph LR
     style C fill:#10b981,color:#fff
 ```
 
+**Explanation:**
+- **Application**: Your web application or service
+- **Redis Cache**: Fast in-memory cache layer
+- **Database**: Traditional disk-based database (MySQL, PostgreSQL, etc.)
+
+**Flow:**
+1. Application requests data from Redis first
+2. If data exists (Cache Hit): Redis returns it immediately (microseconds)
+3. If data doesn't exist (Cache Miss): Application fetches from Database (milliseconds)
+4. Database returns data to Application, which stores it in Redis for future requests
+5. Data is returned to the user
+
+This pattern significantly reduces database load and improves response times for frequently accessed data.
+
 ### 2. Session Storage
 
 Store user session data in Redis for fast access and automatic expiration. Sessions can be stored with a TTL to automatically expire after inactivity.
@@ -359,6 +401,23 @@ flowchart TD
     style Return2 fill:#10b981,color:#fff
     style End fill:#3b82f6,color:#fff
 ```
+
+**Explanation:**
+This flowchart shows the complete caching implementation pattern:
+
+1. **Application Request**: User or system requests data
+2. **Check Redis**: First check if data exists in the cache
+3. **Cache Hit (Yes)**: Data found in Redis - return immediately (fastest path)
+4. **Cache Miss (No)**: Data not in Redis - proceed to database
+5. **Query Database**: Fetch data from traditional database (slower)
+6. **Store in Redis with TTL**: Save the data in cache with expiration time
+7. **Return Data**: Send data back to the application
+
+**Key Benefits:**
+- **Cache Hit**: Microsecond response time (instant)
+- **Cache Miss**: Millisecond response time (first time only)
+- **TTL (Time To Live)**: Automatically expires old data to keep cache fresh
+- **Subsequent requests**: Will hit the cache after the first miss
 
 ### 1. Use Connection Pooling
 
